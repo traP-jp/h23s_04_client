@@ -8,6 +8,6 @@ public class ingamebutton : MonoBehaviour
 {
     public void OnClickStartButton()
     {
-        Debug.Log("joined");
+        SceneManager.LoadScene("ingamescenes");
     }
 }
