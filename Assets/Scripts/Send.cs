@@ -6,6 +6,7 @@ using Photon.Realtime;
 using TMPro;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class Send : MonoBehaviourPunCallbacks
@@ -16,9 +17,22 @@ public class Send : MonoBehaviourPunCallbacks
     [SerializeField] GameObject yourTurn;
     
     [SerializeField] GameObject myTurn;
+    [SerializeField] TextMeshProUGUI phrase1;
+    [SerializeField] TextMeshProUGUI phrase2;
+    [SerializeField] TextMeshProUGUI phrase3;
+    [SerializeField] TextMeshProUGUI phrase4;
+    [SerializeField] TextMeshProUGUI phrase5;
+    [SerializeField] List<GameObject> finishedUI;
     void Start()
     {
-        //text = input.text;
+        phrase1.text = "";
+        phrase2.text = "";
+        phrase3.text = "";
+        phrase4.text = "";
+        phrase5.text = "";
+        foreach(GameObject gameObject in finishedUI){
+            gameObject.SetActive(false);
+        }
     }
     
     public void OnClick()
@@ -32,18 +46,23 @@ public class Send : MonoBehaviourPunCallbacks
         {
         case 0:
             hashtable["phrase1"]=text;
+            // phrase1.text = text;
         break;
         case 1:
             hashtable["phrase2"]=text;
+            // phrase2.text = text;
         break;
         case 2:
             hashtable["phrase3"]=text;
+            // phrase3.text = text;
         break;
         case 3:
             hashtable["phrase4"]=text;
+            // phrase4.text = text;
         break;
         case 4:
             hashtable["phrase5"]=text;
+            // phrase5.text = text;
         break;
         default:
         Debug.Log("aaaa");
@@ -52,6 +71,7 @@ public class Send : MonoBehaviourPunCallbacks
         hashtable["phase"] = currentPhase+1;
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         Debug.Log("clicked");
+        inputField.text="";
         
     }
 
@@ -70,7 +90,29 @@ public class Send : MonoBehaviourPunCallbacks
                         yourTurn.GetComponent<Canvas>().enabled=true;
                     }
                 
-            }   
+            } 
+
+            if(prop.Key.ToString() == "phrase1"){
+                Debug.Log(prop.Value);
+                phrase1.text=prop.Value.ToString();
+            }
+            if(prop.Key.ToString() == "phrase2")
+                phrase2.text=prop.Value.ToString();
+            if(prop.Key.ToString() == "phrase3")
+                phrase3.text=prop.Value.ToString();
+            if(prop.Key.ToString() == "phrase4")
+                phrase4.text=prop.Value.ToString();
+            if(prop.Key.ToString() == "phrase5"){
+                phrase5.text=prop.Value.ToString();
+                //終了
+                myTurn.SetActive(false);
+                yourTurn.SetActive(false);
+                foreach(GameObject gameObject in finishedUI){
+                    gameObject.SetActive(true);
+                }
+            }
+
+            
         } 
     }
 
@@ -78,10 +120,8 @@ public class Send : MonoBehaviourPunCallbacks
         return (PhotonNetwork.CurrentRoom.CustomProperties["phase"] is int currentPhase ? currentPhase : -1);
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void BackTitle(){
+        SceneManager.LoadScene("titlescene");
     }
+
 }
