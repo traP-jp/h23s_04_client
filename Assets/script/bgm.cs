@@ -14,6 +14,8 @@ public class bgm : MonoBehaviour
         if(audios != null)
         {
             i = Random.Range(0,audios.Length);
+            audioSource.loop = true;
+            audioSource.PlayOneShot(audios[i]);
         }
     }
 }
