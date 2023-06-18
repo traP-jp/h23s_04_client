@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: bb3e9fb0f3d28b74e87a8a2e875aef5d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Yuji Boku
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0fcf0c2f7c9a1bf43aa494440312d333, type: 3}
+  - {fileID: 12800000, guid: ec88ab870704587428431fee868e3619, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
