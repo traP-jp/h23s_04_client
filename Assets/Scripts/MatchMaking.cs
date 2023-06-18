@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class MatchMaking : MonoBehaviourPunCallbacks
 {
+    [SerializeField] GameObject matching;
+    [SerializeField] List<Image> roleImage;
+    [SerializeField] Sprite myRole;
+    [SerializeField] Sprite yourRole;
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +52,11 @@ public class MatchMaking : MonoBehaviourPunCallbacks
         // ルームが満員になったら、以降そのルームへの参加を不許可にする
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers) {
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            var hashtable_ = new ExitGames.Client.Photon.Hashtable();
+            hashtable_["bgm"] = Random.Range(0,5);
+            hashtable_["image"] = Random.Range(0,6);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable_);
+            matching.SetActive(false);
         }
         var hashtable=new ExitGames.Client.Photon.Hashtable();
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1){
@@ -57,6 +66,10 @@ public class MatchMaking : MonoBehaviourPunCallbacks
             role = 1;
             hashtable["role"]=1;
         }
+        for(int i=0;i<5;i++){
+            roleImage[i].sprite = (role == i%2) ? myRole : yourRole;
+        }
+
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
         GameObject myTurn = GameObject.Find("MyTurn");
         GameObject yourTurn = GameObject.Find("YourTurn");
@@ -73,6 +86,7 @@ public class MatchMaking : MonoBehaviourPunCallbacks
     // 他プレイヤーがルームへ参加した時に呼ばれるコールバック
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         Debug.Log($"{newPlayer.NickName}が参加しました");
+        matching.SetActive(false);
     }
 
     // 他プレイヤーがルームから退出した時に呼ばれるコールバック
